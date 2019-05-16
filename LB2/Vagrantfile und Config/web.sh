@@ -46,7 +46,6 @@ sudo -u vagrant -i -- wp core install --path=/var/www/html/wordpress --url=local
 # Firewall anpassen
 echo "y" | sudo ufw allow 80/tcp
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
-echo "y" | sudo ufw allow from 10.0.2.15 to any port 3306
 echo "y" | sudo ufw allow 443/tcp
 # echo "y" | sudo ufw deny out to any
 echo "y" | sudo ufw enable

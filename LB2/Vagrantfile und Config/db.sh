@@ -17,3 +17,5 @@ mysql -u root -pvagrant -e "FLUSH PRIVILEGES;"
 mysql -u root -pvagrant -e "EXIT;"
 #MySQL neustarten
 sudo service mysql restart
+#MySQL Zugriff für Webserver zulassen
+echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
