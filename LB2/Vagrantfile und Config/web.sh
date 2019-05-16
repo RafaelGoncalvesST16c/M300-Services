@@ -34,7 +34,6 @@ sudo chmod -R g+w /var/www/html/wordpress/wp-content/themes
 sudo chmod -R g+w /var/www/html/wordpress/wp-content/plugins
 # wp-config.php und 000-default.conf kopieren
 sudo cp /var/www/html/Fileshare/wp-config.php /var/www/html/wordpress/wp-config.php
-# sudo cp /var/www/html/Fileshare/000-default.conf /etc/apache2/sites-available/000-default.conf
 # Apache neustarten
 sudo systemctl restart apache2
 # WP-CLI installieren und damit die WordPress Installation abschliessen
@@ -57,7 +56,7 @@ sudo cp /var/www/html/Fileshare/000-default.conf /etc/apache2/sites-available/00
 sudo service apache2 restart
 sudo cp /var/www/html/Fileshare/apache2.conf /etc/apache2/apache2.conf  
 # WordPress Datenbank URL auf HTTPS umstellen
-sudo mysql -u root -pvagrant wordpress -e "UPDATE wp_options SET option_value = replace(option_value, 'http://localhost:8080', 'https://localhost:4343') WHERE option_name = 'home' OR option_name = 'siteurl';"
+sudo mysql -u root -pvagrant -h 10.0.0.10 wordpress -e "UPDATE wp_options SET option_value = replace(option_value, 'http://localhost:8080', 'https://localhost:4343') WHERE option_name = 'home' OR option_name = 'siteurl';"
 # SSL aktivieren
 sudo a2ensite default-ssl.conf
 sudo a2enmod ssl
@@ -66,5 +65,3 @@ sudo service apache2 restart
 # Authentisierung aktivieren
 printf 'vagrant\nvagrant' | sudo htpasswd -c /etc/apache2/.htpasswd guest
 sudo cp /var/www/html/Fileshare/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
-SHELL
-end
