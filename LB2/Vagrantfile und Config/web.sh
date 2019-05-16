@@ -42,6 +42,7 @@ sudo curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cl
 php wp-cli.phar --info
 sudo chmod +x wp-cli.phar
 sudo mv wp-cli.phar /usr/local/bin/wp
+sudo export PATH="${PATH}:/usr/local/bin/wp"
 sudo -u vagrant -i -- wp core install --path=/var/www/html/wordpress --url=https://localhost:4343 --title="Meine WordPress Seite" --admin_name=wordpress --admin_email=wordpress@test.ch --admin_password=wordpress
 # Firewall anpassen
 echo "y" | sudo ufw allow 80/tcp
