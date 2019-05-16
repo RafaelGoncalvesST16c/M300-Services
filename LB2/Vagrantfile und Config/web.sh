@@ -32,7 +32,7 @@ sudo find /var/www/html/wordpress -type d -exec chmod 2755 {} \;
 sudo chmod g+w /var/www/html/wordpress/wp-content
 sudo chmod -R g+w /var/www/html/wordpress/wp-content/themes
 sudo chmod -R g+w /var/www/html/wordpress/wp-content/plugins
-# wp-config.php und 000-default.conf kopieren
+# wp-config.php kopieren
 sudo cp /var/www/html/Fileshare/wp-config.php /var/www/html/wordpress/wp-config.php
 # Apache neustarten
 sudo systemctl restart apache2
@@ -42,7 +42,7 @@ sudo curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cl
 php wp-cli.phar --info
 sudo chmod +x wp-cli.phar
 sudo mv wp-cli.phar /usr/local/bin/wp
-sudo -u vagrant -i -- wp core install --path=/var/www/html/wordpress --url=localhost:8080 --title="Meine WordPress Seite" --admin_name=wordpress --admin_email=wordpress@test.ch --admin_password=wordpress
+sudo -u vagrant -i -- wp core install --path=/var/www/html/wordpress --url=https://localhost:4343 --title="Meine WordPress Seite" --admin_name=wordpress --admin_email=wordpress@test.ch --admin_password=wordpress
 # Firewall anpassen
 echo "y" | sudo ufw allow 80/tcp
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
@@ -53,9 +53,9 @@ echo "y" | sudo ufw enable
 sudo a2enmod proxy proxy_html proxy_http
 sudo cp /var/www/html/Fileshare/000-default.conf /etc/apache2/sites-available/000-default.conf
 sudo service apache2 restart
-sudo cp /var/www/html/Fileshare/apache2.conf /etc/apache2/apache2.conf  
+sudo cp /var/wwwv/html/Fileshare/apache2.conf /etc/apache2/apache2.conf  
 # WordPress Datenbank URL auf HTTPS umstellen
-sudo mysql -u root -pvagrant -h 10.0.0.10 -d wordpress -e "UPDATE wp_options SET option_value = replace(option_value, 'http://localhost:8080', 'https://localhost:4343') WHERE option_name = 'home' OR option_name = 'siteurl';"
+#sudo mysql -u root -pvagrant -h 10.0.0.10 -d wordpress -e "UPDATE wp_options SET option_value = replace(option_value, 'http://localhost:8080', 'https://localhost:4343') WHERE option_name = 'home' OR option_name = 'siteurl';"
 # SSL aktivieren
 sudo a2ensite default-ssl.conf
 sudo a2enmod ssl
