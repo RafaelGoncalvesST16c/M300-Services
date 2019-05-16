@@ -19,3 +19,4 @@ mysql -u root -pvagrant -e "EXIT;"
 sudo service mysql restart
 #MySQL Zugriff für Webserver zulassen
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
+echo "y" | sudo ufw allow from 10.0.0.11 to any port 3306
