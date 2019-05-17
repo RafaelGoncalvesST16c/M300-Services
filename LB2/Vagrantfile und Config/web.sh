@@ -43,7 +43,7 @@ php wp-cli.phar --info
 sudo chmod +x wp-cli.phar
 sudo mv wp-cli.phar /usr/local/bin/wp
 sudo -u vagrant -i -- wp core install --path=/var/www/html/wordpress --url=https://localhost:4343 --title="Meine WordPress Seite" --admin_name=wordpress --admin_email=wordpress@test.ch --admin_password=wordpress
-# Firewall anpassen
+# Firewall anpassen und Logging aktivieren
 echo "y" | sudo ufw allow 80/tcp
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
 echo "y" | sudo ufw allow 443/tcp
@@ -53,7 +53,7 @@ echo "y" | sudo ufw enable
 sudo a2enmod proxy proxy_html proxy_http
 sudo cp /var/www/html/Fileshare/000-default.conf /etc/apache2/sites-available/000-default.conf
 sudo service apache2 restart
-sudo cp /var/wwwv/html/Fileshare/apache2.conf /etc/apache2/apache2.conf  
+sudo cp /var/www/html/Fileshare/apache2.conf /etc/apache2/apache2.conf  
 # WordPress Datenbank URL auf HTTPS umstellen
 #sudo mysql -u root -pvagrant -h 10.0.0.10 -d wordpress -e "UPDATE wp_options SET option_value = replace(option_value, 'http://localhost:8080', 'https://localhost:4343') WHERE option_name = 'home' OR option_name = 'siteurl';"
 # SSL aktivieren
@@ -65,3 +65,4 @@ sudo service apache2 restart
 # Authentisierung aktivieren
 printf 'vagrant\nvagrant' | sudo htpasswd -c /etc/apache2/.htpasswd guest
 sudo cp /var/www/html/Fileshare/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+sudo service apache2 restart
