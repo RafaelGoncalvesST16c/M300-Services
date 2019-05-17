@@ -54,8 +54,6 @@ sudo a2enmod proxy proxy_html proxy_http
 sudo cp /var/www/html/Fileshare/000-default.conf /etc/apache2/sites-available/000-default.conf
 sudo service apache2 restart
 sudo cp /var/www/html/Fileshare/apache2.conf /etc/apache2/apache2.conf  
-# WordPress Datenbank URL auf HTTPS umstellen
-#sudo mysql -u root -pvagrant -h 10.0.0.10 -d wordpress -e "UPDATE wp_options SET option_value = replace(option_value, 'http://localhost:8080', 'https://localhost:4343') WHERE option_name = 'home' OR option_name = 'siteurl';"
 # SSL aktivieren
 sudo a2ensite default-ssl.conf
 sudo a2dissite 000-default.conf
@@ -67,4 +65,4 @@ printf 'vagrant\nvagrant' | sudo htpasswd -c /etc/apache2/.htpasswd guest
 sudo cp /var/www/html/Fileshare/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 sudo service apache2 restart
 # Firewall aktivieren von db01
-sudo ssh -o StrictHostKeychecking=no -l vagrant 10.0.0.10 "sudo ufw enable; yes"
+#sudo ssh -o StrictHostKeychecking=no -l vagrant 10.0.0.10 "sudo ufw enable; yes"
