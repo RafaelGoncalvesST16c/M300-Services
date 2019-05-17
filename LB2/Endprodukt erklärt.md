@@ -1,5 +1,6 @@
 ### Übersicht über das System
 
+```
 +-----------------------------------------------------+
 | Privates Netz - 10.0.0.0/24                         |
 | Externes Netz - 192.168.0.0/24                      |
@@ -22,6 +23,7 @@
 | Port: ...          |           | Port: ...          |
 | NAT: ...           |           | NAT: ...           |
 +--------------------+-----------+--------------------+
+```
 
 Am Schluss stehen sechs VMs. Hier die Erklärung zu jeder einzelnen:
 
