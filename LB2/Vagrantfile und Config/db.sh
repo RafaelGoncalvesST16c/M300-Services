@@ -23,6 +23,6 @@ sudo ufw logging on
 sudo ufw logging high
 echo "y" | sudo ufw enable
 #MySQL Server nicht auf localhost binden, damit der Webserver remote drauf kommt und den Dienst neustarten
-sudo sed 's/bind-address = 127.0.0.1/#bind-address = 127.0.0.1/g' /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo sed 's/bind-address            = 127.0.0.1/#bind-address            = 127.0.0.1/g' /etc/mysql/mysql.conf.d/mysqld.cnf
 #sudo cp /var/www/html/Fileshare/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
 sudo service mysql restart
