@@ -64,5 +64,3 @@ sudo service apache2 restart
 printf 'vagrant\nvagrant' | sudo htpasswd -c /etc/apache2/.htpasswd guest
 sudo cp /var/www/html/Fileshare/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 sudo service apache2 restart
-# Firewall aktivieren von db01
-#sudo ssh -o StrictHostKeychecking=no -l vagrant 10.0.0.10 "sudo ufw enable; yes"
