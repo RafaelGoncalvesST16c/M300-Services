@@ -12,13 +12,13 @@ debconf-set-selections <<< 'mysql-server mysql-server/root_password_again passwo
 sudo apt-get -y install mysql-server
 # Datenbank erstellen
 mysql -u root -pvagrant -e "CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
-mysql -u root -pvagrant -e "GRANT ALL ON wordpress.* TO 'wordpress'@'10.0.0.11' IDENTIFIED BY 'wordpress';"
+mysql -u root -pvagrant -e "GRANT ALL ON wordpress.* TO 'wordpress'@'10.0.0.12' IDENTIFIED BY 'wordpress';"
 mysql -u root -pvagrant -e "FLUSH PRIVILEGES;"
 #MySQL neustarten
 sudo service mysql restart
 #MySQL Zugriff für Webserver zulassen
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
-echo "y" | sudo ufw allow from 10.0.0.11 to any port 3306
+echo "y" | sudo ufw allow from 10.0.0.12 to any port 3306
 sudo ufw logging on
 sudo ufw logging high
 echo "y" | sudo ufw enable
