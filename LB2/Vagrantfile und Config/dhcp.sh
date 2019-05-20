@@ -1,12 +1,14 @@
 #!/bin/bash
 #DHCP installieren und Config erstellen
 
+#DEBUG ON
+set -o xtrace
 #Packages installieren
 sudo apt-get update
 sudo apt-get install -y isc-dhcp-server
-#ISC-DHCP-Server anpassen
+#ISC-DHCP-Server Interface anpassen
 sudo sed -i 's/INTERFACES="enp0s8"/INTERFACES=""/g' /etc/default/isc-dhcp-server
-#DHCP-Konfiguration anpassen
+#Allgemeine DHCP-Server-Konfiguration anpassen
 rm /etc/dhcp/dhcpd.conf
 cat <<EOF | sudo tee -a /etc/dhcp/dhcpd.conf
 # Sample configuration file for ISC dhcpd for Debian
@@ -51,9 +53,12 @@ subnet 10.0.0.0 netmask 255.255.255.0 {
         max-lease-time 7200;
 }
 EOF
+#DHCP-Server Service neustarten
 sudo systemctl restart isc-dhcp-server.service
 #Firewall anpassen
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
+#Firewall Logging aktivieren
 sudo ufw logging on
 sudo ufw logging high
+#Firewall aktivieren
 echo "y" | sudo ufw enable

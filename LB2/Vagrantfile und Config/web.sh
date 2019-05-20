@@ -1,46 +1,47 @@
 #!/bin/bash
 #LAMP ohne MySQL installieren und konfigurieren
 
-# Packages vom lokalen Server holen
-# DEBUG ON
+#DEBUG ON
 set -o xtrace
+#Packages vom lokalen Server holen
 sudo apt-get update
-# Packages herunterladen
+#Packages herunterladen
 sudo apt-get -y install apache2 php-pear php-fpm php-dev php-zip php-curl php-xmlrpc php-gd php-mysql php-mbstring php-xml libapache2-mod-php php-mcrypt libxml2-dev
-# Apache Rewrite Mod aktivieren
+#Apache Rewrite Mod aktivieren
 sudo a2enmod rewrite
-# Apache Config testen
+#Apache Config testen
 sudo apache2ctl configtest
-# Apache neustarten
+#Apache neustarten
 sudo systemctl restart apache2
-# Ordner wechseln
+#Ordner wechseln
 cd /tmp
-# Wordpress herunterladen und entpacken
+#Wordpress herunterladen und entpacken
 curl -O https://wordpress.org/latest.tar.gz
 tar xzvf latest.tar.gz
-# wp-config-sample.php kopieren als wp-config.php
+#wp-config-sample.php kopieren als wp-config.php
 sudo cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php
-# Upgrade Ordner erstellen
+#Upgrade Ordner erstellen
 mkdir /tmp/wordpress/wp-content/upgrade
-# WordPress Ordner kopieren in /var/www/html/wordpress
+#WordPress Ordner kopieren in /var/www/html/wordpress
 sudo cp -a /tmp/wordpress/. /var/www/html/wordpress
-# Owner anpassen vom WordPress Ordner
+#Owner anpassen vom WordPress Ordner
 sudo chown -R vagrant:www-data /var/www/html/wordpress
-# Group ID setzen, damit Berechtigungen bei den neuen Ordnern bestehen bleiben
+#Group ID setzen, damit Berechtigungen bei den neuen Ordnern bestehen bleiben
 sudo find /var/www/html/wordpress -type d -exec chmod 2755 {} \;
-# Berechtigung anpassen von wp-content, damit das Web Interface Änderungen an Themes und Plugins erstellen kann
+#Berechtigung anpassen von wp-content, damit das Web Interface Änderungen an Themes und Plugins erstellen kann
 sudo chmod g+w /var/www/html/wordpress/wp-content
 sudo chmod -R g+w /var/www/html/wordpress/wp-content/themes
 sudo chmod -R g+w /var/www/html/wordpress/wp-content/plugins
-# Apache neustarten
+#Apache neustarten
 sudo systemctl restart apache2
-# WP-CLI installieren und damit die WordPress Installation abschliessen
+#WP-CLI installieren und damit die WordPress Installation abschliessen
 cd /tmp
 sudo curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 php wp-cli.phar --info
 sudo chmod +x wp-cli.phar
 sudo mv wp-cli.phar /usr/local/bin/wp
 cd /var/www/html/wordpress
+#wp-config.php Variablen anpassen
 sudo -u vagrant wp config set DB_NAME 'wordpress'
 sudo -u vagrant wp config set DB_USER 'wordpress'
 sudo -u vagrant wp config set DB_PASSWORD 'wordpress'
@@ -55,13 +56,16 @@ sudo -u vagrant wp config set SECURE_AUTH_SALT 'ub?zbFw]ej$4_=Rf&w`. jVk&`[Gu&D!
 sudo -u vagrant wp config set LOGGED_IN_SALT 'ChkK|55{no%U&rI+RfXzV6r-/i&l_(-{%xzFR@gipkwY@l;NY@pp0^vpT?-O?;Ec?'
 sudo -u vagrant wp config set NONCE_SALT 'e+Qs.4qBJc4*}$d~u-Y:AWXA+$DIUYo nNDU ,*8(gi[3Z] v>l.>R3HG0||(`1:'
 sudo -u vagrant -i -- wp core install --path=/var/www/html/wordpress --url=https://localhost:4343 --title="Meine WordPress Seite" --admin_name=wordpress --admin_email=wordpress@test.ch --admin_password=wordpress
-# Firewall anpassen und Logging aktivieren
+#Firewall anpassen
 echo "y" | sudo ufw allow 80/tcp
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
 echo "y" | sudo ufw allow 443/tcp
-# echo "y" | sudo ufw deny out to any
+#Firewall Logging aktivieren
+sudo ufw logging on
+sudo ufw logging high
+#Firewall aktivieren
 echo "y" | sudo ufw enable
-# Reverse Proxy einrichten
+#Reverse Proxy einrichten
 sudo a2enmod proxy proxy_html proxy_http
 sudo rm /etc/apache2/sites-available/000-default.conf
 cat <<EOF | sudo tee -a /etc/apache2/sites-available/000-default.conf
@@ -103,7 +107,9 @@ cat <<EOF | sudo tee -a /etc/apache2/sites-available/000-default.conf
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 EOF
+#Apache2 neustarten
 sudo service apache2 restart
+#Inhalt von der Apache2.conf anpassen
 sudo sed '170i<Directory /var/www/html/wordpress>' /etc/apache2/apache2.conf
 sudo sed '171i  AllowOverride All' /etc/apache2/apache2.conf
 sudo sed '172i</Directory>' /etc/apache2/apache2.conf
@@ -112,12 +118,13 @@ sudo cp /var/www/html/Fileshare/apache2.conf /etc/apache2/apache2.conf
 sudo a2ensite default-ssl.conf
 sudo a2dissite 000-default.conf
 sudo a2enmod ssl
-#sudo cp /var/www/html/Fileshare/ports.conf /etc/apache2/ports.conf
+#Zugriff auf die Seite per HTTP verbieten
 sudo sed -i 's/Listen 80/#Listen 80/g' /etc/apache2/ports.conf
+#Apache2 neustarten
 sudo service apache2 restart
 # Authentisierung aktivieren
 printf 'vagrant\nvagrant' | sudo htpasswd -c /etc/apache2/.htpasswd guest
-sudo cp /var/www/html/Fileshare/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+#Default-ssl-conf Inhalt anpassen
 sudo rm /etc/apache2/sites-available/default-ssl.conf
 cat <<EOF | sudo tee -a /etc/apache2/sites-available/default-ssl.conf
 <IfModule mod_ssl.c>
@@ -158,14 +165,20 @@ cat <<EOF | sudo tee -a /etc/apache2/sites-available/default-ssl.conf
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 EOF
+#Apache2 neustarten
 sudo service apache2 restart
+#Zertifikate, die von der CA signiert wurden, lokal kopieren vom Share aus
 sudo cp /var/www/html/Fileshare/localhost.crt /home/vagrant/localhost.crt
 sudo cp /var/www/html/Fileshare/localhost.key /home/vagrant/localhost.key
+#Zertifikate, die von der CA signiert wurden, in der default-ssl.conf Datei hinzufügen
 sudo sed -i 's,/etc/ssl/certs/ssl-cert-snakeoil.pem,/home/vagrant/localhost.crt,g' /etc/apache2/sites-available/default-ssl.conf
 sudo sed -i 's,/etc/ssl/private/ssl-cert-snakeoil.key,/home/vagrant/localhost.key,g' /etc/apache2/sites-available/default-ssl.conf
+#Apache2 neustarten
 sudo service apache2 restart
 #Firewall anpassen
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
+#Firewall Logging aktivieren
 sudo ufw logging on
 sudo ufw logging high
+#Firewall aktivieren
 echo "y" | sudo ufw enable
