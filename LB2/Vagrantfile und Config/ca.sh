@@ -13,4 +13,6 @@ sudo cp localhost.crt /var/www/html/Fileshare/localhost.crt
 sudo cp localhost.key /var/www/html/Fileshare/localhost.key
 #Firewall anpassen
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
+sudo ufw logging on
+sudo ufw logging high
 echo "y" | sudo ufw enable
