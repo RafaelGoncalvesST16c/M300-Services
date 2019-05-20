@@ -5,7 +5,7 @@
 sudo apt-get update
 
 #Zertifikat erstellen
-sudo openssl genrsa 2048 > Test.ch.key
+#sudo openssl genrsa 2048 > Test.ch.key
 #sudo printf 'CH\nZurich\nZurich\nTest GmbH\n\nTest.ch\ninfo@Test.ch\n\n' | sudo openssl req -new -key ./Test.ch.key > Test.ch.csr
 cat <<EOF | sudo tee -a /home/vagrant/gen-cer.sh
 #Required
