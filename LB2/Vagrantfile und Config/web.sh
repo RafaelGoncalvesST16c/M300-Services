@@ -123,7 +123,7 @@ sudo sed -i 's/Listen 80/#Listen 80/g' /etc/apache2/ports.conf
 #Apache2 neustarten
 sudo service apache2 restart
 # Authentisierung aktivieren
-printf 'vagrant\nvagrant' | sudo htpasswd -c /etc/apache2/.htpasswd guest
+printf 'guest\nguest' | sudo htpasswd -c /etc/apache2/.htpasswd guest
 #Default-ssl-conf Inhalt anpassen
 sudo rm /etc/apache2/sites-available/default-ssl.conf
 cat <<EOF | sudo tee -a /etc/apache2/sites-available/default-ssl.conf
