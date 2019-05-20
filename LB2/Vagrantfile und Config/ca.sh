@@ -5,9 +5,9 @@
 sudo apt-get update
 
 #Zertifikat erstellen
-sudo openssl genrsa 2048 > Test.ch.key
-sudo openssl req -new -extensions v3_ca -key ./Test.ch.key -subj "/C=ZH/ST=Zurich/L=Zurich/O=Test GmbH/OU=Test Abteilung/CN=Test.ch" > Test.ch.csr
-sudo openssl x509 -in Test.ch.csr -out Test.ch.crt -req -signkey Test.ch.key -days 365
+sudo openssl genrsa 2048 > localhost.key
+sudo openssl req -new -extensions v3_ca -key ./localhost.key -subj "/C=ZH/ST=Zurich/L=Zurich/O=Test GmbH/OU=Test Abteilung/CN=localhost" > localhost.csr
+sudo openssl x509 -in localhost.csr -out localhost.crt -req -signkey localhost.key -days 365
 #Zertifikat kopieren in Fileshare
-sudo cp Test.ch.crt /var/www/html/Fileshare/Test.ch.crt
-sudo cp Test.ch.key /var/www/html/Fileshare/Test.ch.key
+sudo cp localhost.crt /var/www/html/Fileshare/localhost.crt
+sudo cp localhost.key /var/www/html/Fileshare/localhost.key
