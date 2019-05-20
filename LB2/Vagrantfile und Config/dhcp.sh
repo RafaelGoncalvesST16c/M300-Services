@@ -52,3 +52,6 @@ subnet 10.0.0.0 netmask 255.255.255.0 {
 }
 EOF
 sudo systemctl restart isc-dhcp-server.service
+#Firewall anpassen
+echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
+echo "y" | sudo ufw enable

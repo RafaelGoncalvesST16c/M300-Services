@@ -164,3 +164,6 @@ sudo cp /var/www/html/Fileshare/localhost.key /home/vagrant/localhost.key
 sudo sed -i 's,/etc/ssl/certs/ssl-cert-snakeoil.pem,/home/vagrant/localhost.crt,g' /etc/apache2/sites-available/default-ssl.conf
 sudo sed -i 's,/etc/ssl/private/ssl-cert-snakeoil.key,/home/vagrant/localhost.key,g' /etc/apache2/sites-available/default-ssl.conf
 sudo service apache2 restart
+#Firewall anpassen
+echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
+echo "y" | sudo ufw enable
