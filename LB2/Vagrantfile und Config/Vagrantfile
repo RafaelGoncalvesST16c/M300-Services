@@ -41,6 +41,7 @@ Vagrant.configure(2) do |config|
     client.vm.network "private_network", type: "dhcp"
       client.vm.provider "virtualbox" do |vb|
         vb.memory = "512"
+        vb.customize ["modifyvm", :id, "--natnet1", "10.0.0.0/24"]
       end
       client.vm.synced_folder ".", "/var/www/html/Fileshare"
       client.vm.provision "shell", path: "client.sh"
