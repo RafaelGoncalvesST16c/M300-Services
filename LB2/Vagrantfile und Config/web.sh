@@ -159,8 +159,8 @@ cat <<EOF | sudo tee -a /etc/apache2/sites-available/default-ssl.conf
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 EOF
 sudo service apache2 restart
-sudo cp /var/www/html/Fileshare/Test.ch.crt /home/vagrant/Test.ch.crt
-sudo cp /var/www/html/Fileshare/Test.ch.key /home/vagrant/Test.ch.key
-sudo sed -i 's,/etc/ssl/certs/ssl-cert-snakeoil.pem,/home/vagrant/Test.ch.crt,g' /etc/apache2/sites-available/default-ssl.conf
-sudo sed -i 's,/etc/ssl/private/ssl-cert-snakeoil.key,/home/vagrant/Test.ch.key,g' /etc/apache2/sites-available/default-ssl.conf
+sudo cp /var/www/html/Fileshare/localhost.crt /home/vagrant/localhost.crt
+sudo cp /var/www/html/Fileshare/localhost.key /home/vagrant/localhost.key
+sudo sed -i 's,/etc/ssl/certs/ssl-cert-snakeoil.pem,/home/vagrant/localhost.crt,g' /etc/apache2/sites-available/default-ssl.conf
+sudo sed -i 's,/etc/ssl/private/ssl-cert-snakeoil.key,/home/vagrant/localhost.key,g' /etc/apache2/sites-available/default-ssl.conf
 sudo service apache2 restart
