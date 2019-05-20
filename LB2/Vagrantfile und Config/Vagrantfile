@@ -1,16 +1,16 @@
 Vagrant.configure(2) do |config|
 
-#  config.vm.define "dhcp" do |dhcp|
-#    dhcp.vm.box = "ubuntu/xenial64"
-#    dhcp.vm.hostname = "dhcp01"
-#    dhcp.vm.network "private_network", ip: "10.0.0.10"
-#      dhcp.vm.provider "virtualbox" do |vb|
-#        vb.memory = "512"
-#        vb.name = "dhcp01"
-#      end
-#      dhcp.vm.synced_folder ".", "/var/www/html/Fileshare"
-#      dhcp.vm.provision "shell", path: "dhcp.sh"
-#  end
+  config.vm.define "dhcp" do |dhcp|
+    dhcp.vm.box = "ubuntu/xenial64"
+    dhcp.vm.hostname = "dhcp01"
+    dhcp.vm.network "private_network", ip: "10.0.0.10"
+      dhcp.vm.provider "virtualbox" do |vb|
+        vb.memory = "512"
+        vb.name = "dhcp01"
+      end
+      dhcp.vm.synced_folder ".", "/var/www/html/Fileshare"
+      dhcp.vm.provision "shell", path: "dhcp.sh"
+  end
 
   config.vm.define "ca" do |ca|
     ca.vm.box = "ubuntu/xenial64"
