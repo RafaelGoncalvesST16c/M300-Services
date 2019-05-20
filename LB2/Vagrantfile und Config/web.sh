@@ -159,3 +159,6 @@ cat <<EOF | sudo tee -a /etc/apache2/sites-available/default-ssl.conf
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 EOF
 sudo service apache2 restart
+sudo cp /var/www/html/Fileshare/Test.ch.crt /home/vagrant/Test.ch.crt
+sudo cp /var/www/html/Fileshare/Test.ch.key /home/vagrant/Test.ch.key
+sudo vi 
