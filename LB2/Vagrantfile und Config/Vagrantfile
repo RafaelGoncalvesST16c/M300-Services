@@ -65,6 +65,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "extclient" do |extclient|
     extclient.vm.box = "ubuntu/xenial64"
     extclient.vm.hostname = "extclient01"
+    extclient.vm.network "public_network", auto_config: false
     extclient.vm.network "private_network", ip:"40.0.0.50"
       extclient.vm.provider "virtualbox" do |vb|
         vb.memory = "512"
