@@ -1,0 +1,19 @@
+# Lerndokumentation
+
+## Linux
+Text folgt...
+
+## Virtualisierung
+Text folgt...
+
+## Vagrant
+Text folgt...
+
+## Versionsverwaltung mit Git
+Text folgt...
+
+## Mark Down
+Text folgt...
+
+## Systemsicherheit
+Text folgt...
