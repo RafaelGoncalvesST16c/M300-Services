@@ -1,4 +1,4 @@
-### Übersicht über das System
+# Übersicht über das System
 
 ```
 +-----------------------------------------------------+
@@ -27,4 +27,35 @@
 
 Am Schluss stehen sechs VMs. Hier die Erklärung zu jeder einzelnen:
 
-Webserver
+## Webserver
+- Webseite wird bereitgestellt
+- LAMP Stack installiert (Linux, Apache2, MySQL, PHP)
+- Über HTTPs erreichbar
+- Zertifikat eingebunden (von CA signiert)
+- WordPress als CMS installiert
+- WP-CLI installiert, damit die WordPress Installation automatisiert werden kann
+- Firewall eingerichtet
+- Reverse Proxy eingerichtet
+- Authentisierung für die Webseite aktivieren
+
+## Datenbankserver
+- Datenbank wird bereitgestellt
+- Firewall eingerichtet
+- Datenbank Remote Access erlaubt
+
+## CA Server
+- Zertifikat erstellen
+- Zertifikat durch eigene CA signieren
+- Firewall eingerichtet
+
+## DHCP-Server
+- DHCP-Server konfiguriert
+- Firewall eingerichtet
+
+## Client intern
+- Firewall eingerichtet
+- Testen, ob Webseitenzugriff über die interne IP-Adresse funktioniert
+
+## Client extern
+- Firewall eingerichtet
+- Testen, ob Webseitenzugriff über die externe IP-Adresse funktioniert
