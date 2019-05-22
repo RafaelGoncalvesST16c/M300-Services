@@ -76,7 +76,7 @@ cat <<EOF | sudo tee -a /etc/bind/zones/db.Test.ch
 ;
 ; BIND data file for local loopback interface
 ;
-$TTL    604800
+\$TTL    604800
 @       IN      SOA     dns.Test.ch. admin.Test.ch. (
                               3         ; Serial
                          604800         ; Refresh
@@ -98,7 +98,7 @@ cat <<EOF | sudo tee -a /etc/bind/zones/db.0.0.10
 ;
 ; BIND reverse data file for local loopback interface
 ;
-$TTL    604800
+\$TTL    604800
 @       IN      SOA     Test.ch. admin.Test.ch. (
                               2         ; Serial
                          604800         ; Refresh
@@ -128,6 +128,8 @@ nslookup CA.Test.ch
 nslookup 10.0.0.50
 #Firewall anpassen
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
+echo "y" | sudo ufw allow 53/tcp
+echo "y" | sudo ufw allow 53/udp
 #Firewall Logging aktivieren
 sudo ufw logging on
 sudo ufw logging high
