@@ -182,3 +182,5 @@ sudo ufw logging on
 sudo ufw logging high
 #Firewall aktivieren
 echo "y" | sudo ufw enable
+#DNS eintragen
+sudo sed -i 's/10.0.2.3/10.0.0.10/g' /etc/resolv.conf

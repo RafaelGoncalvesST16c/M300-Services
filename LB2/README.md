@@ -11,10 +11,10 @@
 | Port: 80, 443      |     |     | Port: 3306         |
 | NAT: 8080, 4343    |     |     | NAT: -             |
 +--------------------+     |     +--------------------+
-| CA Server          |     |     | DHCP-Server        |
+| CA Server          |     |     | DNS-Server         |
 | Host: ca01         |     |     | Host: dhcp01       |
 | IP: 10.0.0.13      | <---+---> | IP: 10.0.0.10      |
-| Port: -            |           | Port: -            |
+| Port: -            |           | Port: 53           |
 | NAT: -             |           | NAT: -             |
 +--------------------+           +--------------------+
 | Client intern      |           | Client extern      |
@@ -48,8 +48,14 @@ Am Schluss stehen sechs VMs. Hier die Erklärung zu jeder einzelnen:
 - Zertifikat durch eigene CA signieren
 - Firewall eingerichtet
 
-## DHCP-Server
+## DHCP-Server (Deprecated)
 - DHCP-Server konfiguriert
+- Firewall eingerichtet
+
+## DNS-Server
+- Namensauflösung für das lokale Netzwerk
+- Forward-Lookup Zone erstellt
+- Reverse-Lookup Zone erstellt
 - Firewall eingerichtet
 
 ## Client intern

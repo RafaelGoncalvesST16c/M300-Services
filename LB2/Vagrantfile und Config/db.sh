@@ -28,3 +28,5 @@ echo "y" | sudo ufw enable
 sudo sed -i 's/bind-address/#bind-address/g' /etc/mysql/mysql.conf.d/mysqld.cnf
 #MySQL neustarten
 sudo service mysql restart
+#DNS eintragen
+sudo sed -i 's/10.0.2.3/10.0.0.10/g' /etc/resolv.conf
