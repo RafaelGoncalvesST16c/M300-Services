@@ -12,7 +12,7 @@
 | NAT: 8080, 4343    |     |     | NAT: -             |
 +--------------------+     |     +--------------------+
 | CA Server          |     |     | DNS-Server         |
-| Host: ca01         |     |     | Host: dhcp01       |
+| Host: ca01         |     |     | Host: dns01        |
 | IP: 10.0.0.13      | <---+---> | IP: 10.0.0.10      |
 | Port: -            |           | Port: 53           |
 | NAT: -             |           | NAT: -             |
