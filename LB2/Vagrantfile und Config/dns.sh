@@ -90,6 +90,8 @@ cat <<EOF | sudo tee -a /etc/bind/zones/db.Test.ch
 dns.Test.ch.    IN      A       10.0.0.10
 db.Test.ch.     IN      A       10.0.0.11
 web.Test.ch.    In      A       10.0.0.12
+Test.ch.        In      A       10.0.0.12
+www.Test.ch.    In      A       10.0.0.12
 ca.Test.ch.     IN      A       10.0.0.13
 client.Test.ch. IN      A       10.0.0.50
 EOF
@@ -112,6 +114,8 @@ cat <<EOF | sudo tee -a /etc/bind/zones/db.0.0.10
 10      IN      PTR     dns.Test.ch.
 11      IN      PTR     db.Test.ch.
 12      IN      PTR     web.Test.ch.
+12      IN      PTR     Test.ch.
+12      IN      PTR     www.Test.ch.
 13      IN      PTR     ca.Test.ch.
 50      IN      PTR     client.Test.ch.
 EOF

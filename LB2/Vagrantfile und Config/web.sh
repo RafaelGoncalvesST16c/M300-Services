@@ -55,7 +55,7 @@ sudo -u vagrant wp config set AUTH_SALT 'F<3?mr_bd!.^#+u n2T|t}_sqGP%;{$fCF@Jkgf
 sudo -u vagrant wp config set SECURE_AUTH_SALT 'ub?zbFw]ej$4_=Rf&w`. jVk&`[Gu&D!=hE}#N&t`hE|3uB,#(NEYg$@))x7/5j{'
 sudo -u vagrant wp config set LOGGED_IN_SALT 'ChkK|55{no%U&rI+RfXzV6r-/i&l_(-{%xzFR@gipkwY@l;NY@pp0^vpT?-O?;Ec?'
 sudo -u vagrant wp config set NONCE_SALT 'e+Qs.4qBJc4*}$d~u-Y:AWXA+$DIUYo nNDU ,*8(gi[3Z] v>l.>R3HG0||(`1:'
-sudo -u vagrant -i -- wp core install --path=/var/www/html/wordpress --url=https://localhost:4343 --title="Meine WordPress Seite" --admin_name=wordpress --admin_email=wordpress@test.ch --admin_password=wordpress
+sudo -u vagrant -i -- wp core install --path=/var/www/html/wordpress --url=https://Test.ch:4343 --title="Meine WordPress Seite" --admin_name=wordpress --admin_email=wordpress@test.ch --admin_password=wordpress
 #Firewall anpassen
 echo "y" | sudo ufw allow 80/tcp
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
@@ -71,7 +71,7 @@ sudo rm /etc/apache2/sites-available/000-default.conf
 cat <<EOF | sudo tee -a /etc/apache2/sites-available/000-default.conf
 <IfModule mod_ssl.c>
 	<VirtualHost _default_:443>
-		ServerAdmin webmaster@localhost
+		ServerAdmin info@Test.ch
 		ServerName 10.0.0.12
 		DocumentRoot /var/www/html/wordpress
 
@@ -129,7 +129,7 @@ sudo rm /etc/apache2/sites-available/default-ssl.conf
 cat <<EOF | sudo tee -a /etc/apache2/sites-available/default-ssl.conf
 <IfModule mod_ssl.c>
 	<VirtualHost _default_:443>
-		ServerAdmin webmaster@localhost
+		ServerAdmin info@Test.ch
 		ServerName 10.0.0.12
 		DocumentRoot /var/www/html/wordpress
 
@@ -168,11 +168,11 @@ EOF
 #Apache2 neustarten
 sudo service apache2 restart
 #Zertifikate, die von der CA signiert wurden, lokal kopieren vom Share aus
-sudo cp /var/www/html/Fileshare/localhost.crt /home/vagrant/localhost.crt
-sudo cp /var/www/html/Fileshare/localhost.key /home/vagrant/localhost.key
+sudo cp /var/www/html/Fileshare/Test.ch.crt /home/vagrant/Test.ch.crt
+sudo cp /var/www/html/Fileshare/Test.ch.key /home/vagrant/Test.ch.key
 #Zertifikate, die von der CA signiert wurden, in der default-ssl.conf Datei hinzufügen
-sudo sed -i 's,/etc/ssl/certs/ssl-cert-snakeoil.pem,/home/vagrant/localhost.crt,g' /etc/apache2/sites-available/default-ssl.conf
-sudo sed -i 's,/etc/ssl/private/ssl-cert-snakeoil.key,/home/vagrant/localhost.key,g' /etc/apache2/sites-available/default-ssl.conf
+sudo sed -i 's,/etc/ssl/certs/ssl-cert-snakeoil.pem,/home/vagrant/Test.ch.crt,g' /etc/apache2/sites-available/default-ssl.conf
+sudo sed -i 's,/etc/ssl/private/ssl-cert-snakeoil.key,/home/vagrant/Test.ch.key,g' /etc/apache2/sites-available/default-ssl.conf
 #Apache2 neustarten
 sudo service apache2 restart
 #Firewall anpassen
