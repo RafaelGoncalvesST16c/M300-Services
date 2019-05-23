@@ -159,8 +159,8 @@ cat <<EOF | sudo tee -a /etc/dhcp/dhcpd.conf
 # have support for DDNS.
 ddns-update-style none;
 # option definitions common to all supported networks...
-option domain-name "Testdomain.ch";
-option domain-name-servers ns1.testdomain.ch;
+option domain-name "Test.ch";
+option domain-name-servers ns1.Test.ch;
 default-lease-time 600;
 max-lease-time 7200;
 # If this DHCP server is the official DHCP server for the local
@@ -174,7 +174,7 @@ log-facility local7;
 subnet 10.0.0.0 netmask 255.255.255.0 {
         range 10.0.0.50 10.0.0.100;
         option routers  10.0.0.1;
-        option-subnet-mask      255.255.255.0;
+        option subnet-mask      255.255.255.0;
         option domain-name-servers n1.test.ch;
         option time-offset      -18000;
         option broadcast-address        10.0.0.255;
@@ -182,4 +182,4 @@ subnet 10.0.0.0 netmask 255.255.255.0 {
         max-lease-time 7200;
 }
 EOF
-sudo systemctl restart isc-dhcp.server.service
+sudo systemctl restart isc-dhcp-server.service
