@@ -53,10 +53,11 @@ Vagrant.configure(2) do |config|
   config.vm.define "client" do |client|
     client.vm.box = "ubuntu/xenial64"
     client.vm.hostname = "client01"
-    client.vm.network "private_network", ip:"10.0.0.50"
+    client.vm.network "private_network", type:"dhcp"
       client.vm.provider "virtualbox" do |vb|
         vb.memory = "512"
         vb.name = "client01"
+        vb.gui = "true"
       end
       client.vm.synced_folder ".", "/var/www/html/Fileshare"
       client.vm.provision "shell", path: "client.sh"
@@ -69,6 +70,7 @@ Vagrant.configure(2) do |config|
       extclient.vm.provider "virtualbox" do |vb|
         vb.memory = "512"
         vb.name = "extclient01"
+        vb.gui = "true"
       end
       extclient.vm.synced_folder ".", "/var/www/html/Fileshare"
       extclient.vm.provision "shell", path: "extclient.sh"
