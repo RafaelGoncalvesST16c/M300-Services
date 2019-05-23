@@ -143,7 +143,7 @@ echo "y" | sudo ufw enable
 sudo apt-get update
 sudo apt-get install -y isc-dhcp-server
 #ISC-DHCP-Server anpassen
-sudo sed -i 's/INTERFACES="enp0s8"/INTERFACES=""/g' /etc/default/isc-dhcp-server
+sudo sed -i 's/INTERFACES=""/INTERFACES="enp0s8"/g' /etc/default/isc-dhcp-server
 #DHCP-Konfiguration anpassen
 rm /etc/dhcp/dhcpd.conf
 cat <<EOF | sudo tee -a /etc/dhcp/dhcpd.conf
