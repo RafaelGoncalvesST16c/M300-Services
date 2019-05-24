@@ -41,6 +41,8 @@ Erklärung dieser Meldung: <br>
 - ```TYPE``` Hängt damit zusammen, dass das ICMP Protokoll verwendet wurde. Der Typ (hier Typ 8) sagt uns genauer was genau von der ICMP Familie benutzt wurde. Typ 8 ist Ping, also wissen wir, dass ein Ping gemacht wurde (bzw. Echo). <br>
 - ```SEQ``` Sequenznummer vom Ping. Dies war der erste Ping, also ist die Sequenz Nummer 1. 
 
+Was sagt uns dieser Eintrag? Es wurde ein Ping abgesetzt vom Datenbankserver auf Google und dieser wurde erlaubt.
+
 Hier noch einmal ein Beispiel, aber dieses schauen wir uns nicht im Detail an:
 ```
 May 24 08:51:57 ubuntu-xenial kernel: [  517.503766] [UFW BLOCK] IN=enp0s8 OUT= MAC=08:00:27:96:4d:75:08:00:27:9b:3e:17:08:00 SRC=10.0.0.50 DST=10.0.0.11 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=52474 DF PROTO=TCP SPT=34522 DPT=3306 WINDOW=29200 RES=0x00 SYN URGP=0
@@ -62,6 +64,8 @@ May 24 08:51:57 ubuntu-xenial kernel: [  517.503766] [UFW BLOCK] IN=enp0s8 OUT= 
 - ```WINDOW = 29200``` (Dies zeigt die Grösse vom Packet in Bytes an, die der Sender erhalten kann) <br>
 - ```RES = 0x00``` (Dies ist ein Bit, welches für zuküntige Zwecke reserviert ist und immer 0 als Wert hat) <br>
 - ```SYN URGP = 0``` (Dieses Feld zeigt einem an, dass ein Threeway handshake gemacht wird, da das Protokoll TCP ist. URGP sagt, ob das Urgend Pointer Feld relevant ist. Es ist 0, also ist es nicht relevant) <br>
+
+Was sagt uns dieser Eintrag? Der Client hat versucht sich mit der MySQL Datenbank remote zu verbinden, aber dies wurde verweigert.
 
 ### Erstellte Firewallregeln
 
