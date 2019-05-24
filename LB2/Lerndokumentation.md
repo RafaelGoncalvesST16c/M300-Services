@@ -70,7 +70,6 @@ Was sagt uns dieser Eintrag? Der Client hat versucht sich mit der MySQL Datenban
 ### Erstellte Firewallregeln
 
 #### Web
-- Allow 80/tcp (HTTP auf die Webseite)
 - Allow from 10.0.2.2 to any port 22 (SSH vom Host aus)
 - Allow 443/tcp (HTTPS auf die Webseite)
 
