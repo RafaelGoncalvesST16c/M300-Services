@@ -55,9 +55,8 @@ sudo -u vagrant wp config set AUTH_SALT 'F<3?mr_bd!.^#+u n2T|t}_sqGP%;{$fCF@Jkgf
 sudo -u vagrant wp config set SECURE_AUTH_SALT 'ub?zbFw]ej$4_=Rf&w`. jVk&`[Gu&D!=hE}#N&t`hE|3uB,#(NEYg$@))x7/5j{'
 sudo -u vagrant wp config set LOGGED_IN_SALT 'ChkK|55{no%U&rI+RfXzV6r-/i&l_(-{%xzFR@gipkwY@l;NY@pp0^vpT?-O?;Ec?'
 sudo -u vagrant wp config set NONCE_SALT 'e+Qs.4qBJc4*}$d~u-Y:AWXA+$DIUYo nNDU ,*8(gi[3Z] v>l.>R3HG0||(`1:'
-sudo -u vagrant -i -- wp core install --path=/var/www/html/wordpress --url=https://Test.ch:4343 --title="Meine WordPress Seite" --admin_name=wordpress --admin_email=wordpress@test.ch --admin_password=wordpress
+sudo -u vagrant -i -- wp core install --path=/var/www/html/wordpress --url=https://Test.ch --title="Meine WordPress Seite" --admin_name=wordpress --admin_email=wordpress@test.ch --admin_password=wordpress
 #Firewall anpassen
-echo "y" | sudo ufw allow 80/tcp
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
 echo "y" | sudo ufw allow 443/tcp
 #Firewall Logging aktivieren
@@ -101,6 +100,17 @@ cat <<EOF | sudo tee -a /etc/apache2/sites-available/000-default.conf
 		BrowserMatch "MSIE [2-6]" \
 			nokeepalive ssl-unclean-shutdown \
 			downgrade-1.0 force-response-1.0
+
+		# Allgemeine Proxy Einstellungen
+  	  	ProxyRequests Off
+		<Proxy *>
+			Order deny,allow
+        	Allow from all
+    	</Proxy>
+
+    	# Weiterleitungen master
+    	ProxyPass /master http://master
+    	ProxyPassReverse /master http://master
 
 	</VirtualHost>
 </IfModule>
@@ -159,6 +169,17 @@ cat <<EOF | sudo tee -a /etc/apache2/sites-available/default-ssl.conf
 		BrowserMatch "MSIE [2-6]" \
 			nokeepalive ssl-unclean-shutdown \
 			downgrade-1.0 force-response-1.0
+
+		# Allgemeine Proxy Einstellungen
+    	ProxyRequests Off
+    	<Proxy *>
+        	Order deny,allow
+        	Allow from all
+ 	   </Proxy>
+
+ 	   # Weiterleitungen master
+ 	   ProxyPass /master http://master
+  	  ProxyPassReverse /master http://master
 
 	</VirtualHost>
 </IfModule>
