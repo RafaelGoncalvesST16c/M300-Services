@@ -3,7 +3,7 @@
 ```
 +-----------------------------------------------------+
 | Privates Netz - 10.0.0.0/24                         |
-| Externes Netz - 192.168.0.0/24                      |
+| Externes Netz - 40.0.0.0/24                         |
 +-----------------------------------------------------+
 | Webserver          |           | Datenbankserver    |
 | Host: web01        |           | Host: db01         |
@@ -25,9 +25,9 @@
 +--------------------+-----------+--------------------+
 ```
 
-Am Schluss stehen sechs VMs. Hier die Erklärung zu jeder einzelnen:
+## Alle Maschinen erklärt
 
-## Webserver
+### Webserver
 - Webseite wird bereitgestellt
 - LAMP Stack installiert (Linux, Apache2, MySQL, PHP)
 - Über HTTPs erreichbar
@@ -38,30 +38,31 @@ Am Schluss stehen sechs VMs. Hier die Erklärung zu jeder einzelnen:
 - Reverse Proxy eingerichtet
 - Authentisierung für die Webseite aktivieren
 
-## Datenbankserver
+### Datenbankserver
 - Datenbank wird bereitgestellt
 - Firewall eingerichtet
 - Datenbank Remote Access erlaubt
 
-## CA Server
+### CA Server
 - Zertifikat erstellen
 - Zertifikat durch eigene CA signieren
 - Firewall eingerichtet
 
-## DHCP-Server (Deprecated)
+### DHCP-Server (Deprecated)
 - DHCP-Server konfiguriert
 - Firewall eingerichtet
 
-## DNS-Server
+### DNS-Server
 - Namensauflösung für das lokale Netzwerk
 - Forward-Lookup Zone erstellt
 - Reverse-Lookup Zone erstellt
+- Webseite über Test.ch erreichbar
 - Firewall eingerichtet
 
-## Client intern
+### Client intern
 - Firewall eingerichtet
 - Testen, ob Webseitenzugriff über die interne IP-Adresse funktioniert
 
-## Client extern
+### Client extern
 - Firewall eingerichtet
 - Testen, ob Webseitenzugriff über die externe IP-Adresse funktioniert

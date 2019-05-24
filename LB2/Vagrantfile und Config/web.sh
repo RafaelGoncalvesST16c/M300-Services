@@ -175,12 +175,5 @@ sudo sed -i 's,/etc/ssl/certs/ssl-cert-snakeoil.pem,/home/vagrant/Test.ch.crt,g'
 sudo sed -i 's,/etc/ssl/private/ssl-cert-snakeoil.key,/home/vagrant/Test.ch.key,g' /etc/apache2/sites-available/default-ssl.conf
 #Apache2 neustarten
 sudo service apache2 restart
-#Firewall anpassen
-echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
-#Firewall Logging aktivieren
-sudo ufw logging on
-sudo ufw logging high
-#Firewall aktivieren
-echo "y" | sudo ufw enable
 #DNS eintragen
 sudo sed -i 's/10.0.2.3/10.0.0.10/g' /etc/resolv.conf
