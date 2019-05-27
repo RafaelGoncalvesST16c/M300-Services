@@ -6,7 +6,7 @@ set -o xtrace
 #Packages vom lokalen Server holen
 sudo apt-get update
 #Packages herunterladen
-sudo apt-get -y install apache2 php-pear php-fpm php-dev php-zip php-curl php-xmlrpc php-gd php-mysql php-mbstring php-xml libapache2-mod-php php-mcrypt libxml2-dev
+sudo apt-get -y install apache2 php-pear php-fpm php-dev php-zip php-curl php-xmlrpc php-gd php-mysql php-mbstring php-xml libapache2-mod-php php-mcrypt libxml2-dev mysql-client
 #Apache Rewrite Mod aktivieren
 sudo a2enmod rewrite
 #Apache Config testen
@@ -42,13 +42,6 @@ sudo chmod +x wp-cli.phar
 sudo mv wp-cli.phar /usr/local/bin/wp
 cd /var/www/html/wordpress
 #wp-config.php Variablen anpassen
-echo "# ProxyPass Settings" >> /var/www/html/wordpress/wp-config.php
-echo "#" >> /var/www/html/wordpress/wp-config.php
-echo "# DO NOT REMOVE: overriding the following variables is" >> /var/www/html/wordpress/wp-config.php
-echo "# required to ensure that any request /blog/* is handled" >> /var/www/html/wordpress/wp-config.php
-echo "$_SERVER[‘REQUEST_URI’] = ‘/blog’ . $_SERVER[‘REQUEST_URI’];" >> /var/www/html/wordpress/wp-config.php
-echo "$_SERVER[‘SCRIPT_NAME’] = ‘/blog’ . $_SERVER[‘SCRIPT_NAME’];" >> /var/www/html/wordpress/wp-config.php
-echo "$_SERVER[‘PHP_SELF’] = ‘/blog’ . $_SERVER[‘PHP_SELF’];" >> /var/www/html/wordpress/wp-config.php
 sudo -u vagrant wp config set DB_NAME 'wordpress'
 sudo -u vagrant wp config set DB_USER 'wordpress'
 sudo -u vagrant wp config set DB_PASSWORD 'wordpress'
@@ -63,6 +56,13 @@ sudo -u vagrant wp config set SECURE_AUTH_SALT 'ub?zbFw]ej$4_=Rf&w`. jVk&`[Gu&D!
 sudo -u vagrant wp config set LOGGED_IN_SALT 'ChkK|55{no%U&rI+RfXzV6r-/i&l_(-{%xzFR@gipkwY@l;NY@pp0^vpT?-O?;Ec?'
 sudo -u vagrant wp config set NONCE_SALT 'e+Qs.4qBJc4*}$d~u-Y:AWXA+$DIUYo nNDU ,*8(gi[3Z] v>l.>R3HG0||(`1:'
 sudo -u vagrant -i -- wp core install --path=/var/www/html/wordpress --url=https://Test.ch --title="Meine WordPress Seite" --admin_name=wordpress --admin_email=wordpress@test.ch --admin_password=wordpress
+echo "# ProxyPass Settings" >> /var/www/html/wordpress/wp-config.php
+echo "#" >> /var/www/html/wordpress/wp-config.php
+echo "# DO NOT REMOVE: overriding the following variables is" >> /var/www/html/wordpress/wp-config.php
+echo "# required to ensure that any request /blog/* is handled" >> /var/www/html/wordpress/wp-config.php
+echo "$_SERVER[‘REQUEST_URI’] = ‘/blog’ . $_SERVER[‘REQUEST_URI’];" >> /var/www/html/wordpress/wp-config.php
+echo "$_SERVER[‘SCRIPT_NAME’] = ‘/blog’ . $_SERVER[‘SCRIPT_NAME’];" >> /var/www/html/wordpress/wp-config.php
+echo "$_SERVER[‘PHP_SELF’] = ‘/blog’ . $_SERVER[‘PHP_SELF’];" >> /var/www/html/wordpress/wp-config.php
 #Firewall anpassen
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
 echo "y" | sudo ufw allow 443/tcp
