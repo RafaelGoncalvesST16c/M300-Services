@@ -72,6 +72,7 @@ sudo ufw logging high
 #Firewall aktivieren
 echo "y" | sudo ufw enable
 #Reverse Proxy einrichten
+mysql -u wordpress -pwordpress -h 10.0.0.11 wordpress -e "UPDATE wp_options SET option_value = 'https://Test.ch/blog' WHERE option_name IN('siteurl', 'home');"
 sudo a2enmod proxy proxy_html proxy_http
 sudo rm /etc/apache2/sites-available/000-default.conf
 cat <<EOF | sudo tee -a /etc/apache2/sites-available/000-default.conf
