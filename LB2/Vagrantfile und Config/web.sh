@@ -60,9 +60,9 @@ echo "# ProxyPass Settings" >> /var/www/html/wordpress/wp-config.php
 echo "#" >> /var/www/html/wordpress/wp-config.php
 echo "# DO NOT REMOVE: overriding the following variables is" >> /var/www/html/wordpress/wp-config.php
 echo "# required to ensure that any request /blog/* is handled" >> /var/www/html/wordpress/wp-config.php
-echo "$_SERVER[‘REQUEST_URI’] = ‘/blog’ . $_SERVER[‘REQUEST_URI’];" >> /var/www/html/wordpress/wp-config.php
-echo "$_SERVER[‘SCRIPT_NAME’] = ‘/blog’ . $_SERVER[‘SCRIPT_NAME’];" >> /var/www/html/wordpress/wp-config.php
-echo "$_SERVER[‘PHP_SELF’] = ‘/blog’ . $_SERVER[‘PHP_SELF’];" >> /var/www/html/wordpress/wp-config.php
+echo "\$_SERVER[‘REQUEST_URI’] = ‘/blog’ . $_SERVER[‘REQUEST_URI’];" >> /var/www/html/wordpress/wp-config.php
+echo "\$_SERVER[‘SCRIPT_NAME’] = ‘/blog’ . $_SERVER[‘SCRIPT_NAME’];" >> /var/www/html/wordpress/wp-config.php
+echo "\$_SERVER[‘PHP_SELF’] = ‘/blog’ . $_SERVER[‘PHP_SELF’];" >> /var/www/html/wordpress/wp-config.php
 #Firewall anpassen
 echo "y" | sudo ufw allow from 10.0.2.2 to any port 22
 echo "y" | sudo ufw allow 443/tcp
