@@ -42,6 +42,13 @@ sudo chmod +x wp-cli.phar
 sudo mv wp-cli.phar /usr/local/bin/wp
 cd /var/www/html/wordpress
 #wp-config.php Variablen anpassen
+echo "# ProxyPass Settings" >> /var/www/html/wordpress/wp-config.php
+echo "#" >> /var/www/html/wordpress/wp-config.php
+echo "# DO NOT REMOVE: overriding the following variables is" >> /var/www/html/wordpress/wp-config.php
+echo "# required to ensure that any request /blog/* is handled" >> /var/www/html/wordpress/wp-config.php
+echo "$_SERVER[‘REQUEST_URI’] = ‘/blog’ . $_SERVER[‘REQUEST_URI’];" >> /var/www/html/wordpress/wp-config.php
+echo "$_SERVER[‘SCRIPT_NAME’] = ‘/blog’ . $_SERVER[‘SCRIPT_NAME’];" >> /var/www/html/wordpress/wp-config.php
+echo "$_SERVER[‘PHP_SELF’] = ‘/blog’ . $_SERVER[‘PHP_SELF’];" >> /var/www/html/wordpress/wp-config.php
 sudo -u vagrant wp config set DB_NAME 'wordpress'
 sudo -u vagrant wp config set DB_USER 'wordpress'
 sudo -u vagrant wp config set DB_PASSWORD 'wordpress'
@@ -177,9 +184,10 @@ cat <<EOF | sudo tee -a /etc/apache2/sites-available/default-ssl.conf
         	Allow from all
  	   </Proxy>
 
+	   SSLProxyEngine On
  	   # Weiterleitungen master
- 	   ProxyPass /wp-admin http://master
-  	   ProxyPassReverse /wp-admin http://master
+ 	   ProxyPass /blog https://Test.ch/
+  	   ProxyPassReverse /blog https://Test.ch/
 
 	</VirtualHost>
 </IfModule>

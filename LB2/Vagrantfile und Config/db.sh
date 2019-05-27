@@ -13,6 +13,7 @@ sudo apt-get -y install mysql-server
 #Datenbank erstellen
 mysql -u root -pvagrant -e "CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
 mysql -u root -pvagrant -e "GRANT ALL ON wordpress.* TO 'wordpress'@'10.0.0.12' IDENTIFIED BY 'wordpress';"
+mysql -u root -pvagrant -e "UPDATE wp_options SET option_value = 'https://Test.ch/blog' WHERE option_name IN('siteurl', 'home');"
 mysql -u root -pvagrant -e "FLUSH PRIVILEGES;"
 #MySQL neustarten
 sudo service mysql restart
