@@ -178,8 +178,8 @@ cat <<EOF | sudo tee -a /etc/apache2/sites-available/default-ssl.conf
  	   </Proxy>
 
  	   # Weiterleitungen master
- 	   ProxyPass /master http://master
-  	  ProxyPassReverse /master http://master
+ 	   ProxyPass /wp-admin http://master
+  	   ProxyPassReverse /wp-admin http://master
 
 	</VirtualHost>
 </IfModule>
