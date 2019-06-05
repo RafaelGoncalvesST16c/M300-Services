@@ -1,0 +1,12 @@
+proxy01:
+  image: ubuntu:16.04
+  container_name: reverse_proxy
+dns01:
+  image: resystit/bind9
+  container_name: dns_server
+web01:
+  image: bitnami/apache:latest
+  container_name: web_server
+db01:
+  image: mysql/mysql-server:latest
+  container_name: db_server
