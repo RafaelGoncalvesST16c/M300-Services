@@ -12,18 +12,67 @@ services:
    MYSQL_DATABASE: wordpress
    MYSQL_USER: wordpress
    MYSQL_PASSWORD: wordpress
+  networks:
+   - internal
+  labels:
+   - "traefik.enable=false"
+
  wordpress:
   container_name: wordpress
   depends_on:
    - db
-  image: wordpress:latest
-  ports:
-   - "8000:80"
+  image: wordpress:5.2
   restart: always
   environment:
    WORDPRESS_DB_HOST: db:3306
    WORDPRESS_DB_USER: wordpress
    WORDPRESS_DB_PASSWORD: wordpress
    WORDPRESS_DB_NAME: wordpress
+  labels:
+   - "traefik.backend=wordpress"
+   - "traefik.enable=true"
+   - "traefik.frontend.rule=Host:wordpress.localhost"
+   - "traefik.port=80"
+   - "traefik.docker.network=proxy"
+  networks:
+   - internal
+   - proxy
+
+ reverse-proxy:
+  container_name: reverse-proxy
+  image: traefik:1.7
+  command: --api
+  ports:
+   - "80:80"
+   - "8080:8080"
+   - "8000:8000"
+  volumes:
+   - /var/run/docker.sock:/var/run/docker.sock
+   - ./traefik:/etc/traefik
+  networks:
+   - proxy
+
+ owncloud:
+  depends_on:
+   - db
+  container_name: owncloud
+  image: owncloud:10.0
+  restart: always
+  labels:
+   - "traefik.backend=owncloud"
+   - "traefik.enable=true"
+   - "traefik.frontend.rule=Host:owncloud.localhost"
+   - "traefk.port=8000"
+   - "traefik.docker.network=proxy"
+  networks:
+   - internal
+   - proxy
+ 
+
 volumes:
  db_data: {}
+networks:
+ proxy:
+  external: true
+ internal:
+  external: false
