@@ -16,6 +16,14 @@ services:
    - internal
   labels:
    - "traefik.enable=false"
+  deploy:
+   resources:
+    limits:
+     cpus: "0.50"
+     memory: 50M
+    reservations:
+     cpus: "0.25"
+     memory: 20M
 
  wordpress:
   container_name: wordpress
@@ -37,6 +45,14 @@ services:
   networks:
    - internal
    - proxy
+  deploy:
+   resources:
+    limits:
+     cpus: "0.50"
+     memory: 50M
+    reservations:
+     cpus: "0.25"
+     memory: 20M  
 
  reverse-proxy:
   container_name: reverse-proxy
@@ -53,6 +69,14 @@ services:
    - ./traefik/Certs:/vagrant/M300-Services/LB3/Dockerconfig/traefik/Certs
   networks:
    - proxy
+  deploy:
+   resources:
+    limits:
+     cpus: "0.50"
+     memory: 50M
+    reservations:
+     cpus: "0.25"
+     memory: 20M
 
  owncloud:
   depends_on:
@@ -69,6 +93,21 @@ services:
   networks:
    - internal
    - proxy
+  deploy:
+   resources:
+    limits:
+     cpus: "0.50"
+     memory: 50M
+    reservations:
+     cpus: "0.25"  deploy:
+   resources:
+    limits:
+     cpus: "0.50"
+     memory: 50M
+    reservations:
+     cpus: "0.25"
+     memory: 20M
+     memory: 20M
 
 volumes:
  db_data: {}
