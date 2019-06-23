@@ -3,34 +3,39 @@
 ## Netzwerkplan
 
 ```
-+-------------------------------------------------------------------------------------------------------+
-| Privates Netz - 192.168.0.0/24                                                                        |
-| Externes Netz - 20.0.0.0/24                                                                           |
-+-------------------------------------------------------------------------------------------------------+
-| Reverse Proxy                                                           |  | Datenbankserver          |
-| Name: reverse-proxy                                                     |  | Name: database           |
-| Image: traefik:1.7                                                      |  | Image: mysql:5.7         |
-| Ports:                                                                  |  | Ports: -                 |
-| =>80:80                                                                 |  | Volumes:                 |
-| =>8080:8080                                                             |  | =>db_data:/var/lib/mysql |
-| =>8000:8000                                                             |  | Networks:                |
-| =>443:443                                                               |  | =>internal               |
-| Volumes:                                                                |  |                          |
-| =>/var/run/docker.sock:/var/run/docker.sock                             |  |                          |
-| =>./traefik:/etc/traefik                                                |  |                          |
-| =>./traefik/Certs:/vagrant/M300-Services/LB3/Dockerconfig/traefik/Certs |  |                          |
-| Networks:                                                               |  |                          |
-| =>proxy                                                                 |  |                          |
-+-------------------------------------------------------------------------+--+--------------------------+
-| Wordpress                                                               |  | Owncloud                 |
-| Name: wordpress                                                         |  | Name: owncloud           |
-| Image: wordpress:5.2                                                    |  | Image: owncloud:10.0     |
-| Ports: -                                                                |  | Ports: -                 |
-| Volumes: -                                                              |  | Volumes: -               |
-| Networks:                                                               |  | Networks:                |
-| =>proxy                                                                 |  | =>proxy                  |
-|                                                                         |  | =>internal               |
-+-------------------------------------------------------------------------+--+--------------------------+
++-------------------------------------------------------------------------+--------------------------+
+| Privates Netz - 192.168.0.0/24                                          |                          |
+| Externes Netz - 20.0.0.0/24                                             |                          |
++-------------------------------------------------------------------------+--------------------------+
+| Reverse Proxy                                                           | Datenbankserver          |
+| Name: reverse-proxy                                                     | Name: database           |
+| Image: traefik:1.7                                                      | Image: mysql:5.7         |
+| Ports:                                                                  | Ports: -                 |
+| =>80:80                                                                 | Volumes:                 |
+| =>8080:8080                                                             | =>db_data:/var/lib/mysql |
+| =>8000:8000                                                             | Networks:                |
+| =>443:443                                                               | =>internal               |
+| Volumes:                                                                | Kommunikation:           |
+| =>/var/run/docker.sock:/var/run/docker.sock                             | =>Wordpress              |
+| =>./traefik:/etc/traefik                                                |                          |
+| =>./traefik/Certs:/vagrant/M300-Services/LB3/Dockerconfig/traefik/Certs |                          |
+| Networks:                                                               |                          |
+| =>proxy                                                                 |                          |
+| Kommunikation:                                                          |                          |
+| =>Wordpress                                                             |                          |
+| =>Owncloud                                                              |                          |
++-------------------------------------------------------------------------+--------------------------+
+| Wordpress                                                               | Owncloud                 |
+| Name: wordpress                                                         | Name: owncloud           |
+| Image: wordpress:5.2                                                    | Image: owncloud:10.0     |
+| Ports: -                                                                | Ports: -                 |
+| Volumes: -                                                              | Volumes: -               |
+| Networks:                                                               | Networks:                |
+| =>proxy                                                                 | =>proxy                  |
+| Kommunikation:                                                          | =>internal               |
+| =>Reverse Proxy                                                         | Kommunikation:           |
+| =>Datenbankserver                                                       | =>Reverse Proxy          |
++-------------------------------------------------------------------------+--------------------------+
 ```
 
 ## Ziel der LB
