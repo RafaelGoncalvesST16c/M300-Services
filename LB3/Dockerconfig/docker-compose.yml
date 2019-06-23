@@ -31,7 +31,7 @@ services:
   labels:
    - "traefik.backend=wordpress"
    - "traefik.enable=true"
-   - "traefik.frontend.rule=Host:wordpress.localhost"
+   - "traefik.frontend.rule=Host:wordpress.test.ch"
    - "traefik.port=80"
    - "traefik.docker.network=proxy"
   networks:
@@ -46,9 +46,11 @@ services:
    - "80:80"
    - "8080:8080"
    - "8000:8000"
+   - "443:443"
   volumes:
    - /var/run/docker.sock:/var/run/docker.sock
    - ./traefik:/etc/traefik
+   - ./traefik/Certs:/vagrant/M300-Services/LB3/Dockerconfig/traefik/Certs
   networks:
    - proxy
 
@@ -61,7 +63,7 @@ services:
   labels:
    - "traefik.backend=owncloud"
    - "traefik.enable=true"
-   - "traefik.frontend.rule=Host:owncloud.localhost"
+   - "traefik.frontend.rule=Host:owncloud.test.ch"
    - "traefk.port=8000"
    - "traefik.docker.network=proxy"
   networks:

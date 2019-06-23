@@ -1,0 +1,23 @@
+logLevel = "INFO"
+  defaultEntryPoints = ["http","https"]
+
+[web]
+  address = ":8080"
+
+[entryPoints]
+    [entryPoints.http]
+    address = ":80"
+    [entryPoints.https]
+    address = ":443"
+      [entryPoints.https.tls]
+        [[entryPoints.https.tls.certificates]]
+        certFile = "/vagrant/M300-Services/LB3/Dockerconfig/traefik/Certs/test.ch.crt"
+        keyFile = "/vagrant/M300-Services/LB3/Dockerconfig/traefik/Certs/test.ch.key"
+
+[docker]
+  endpoint = "unix:///var/run/docker.sock"
+  domain = "test.ch"
+  watch = true
+  exposedbydefault = false
+
+InsecureSkipVerify = true
