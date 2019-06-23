@@ -107,7 +107,6 @@ services:
     reservations:
      cpus: "0.25"
      memory: 20M
-     memory: 20M
 
 volumes:
  db_data: {}
