@@ -6,7 +6,7 @@ services:
   image: mysql:5.7
   volumes:
    - ./db_data_wordpress:/var/lib/mysql
-  restart: always
+  restart: on-failure
   environment:
    MYSQL_ROOT_PASSWORD: somewordpress
    MYSQL_DATABASE: wordpress
@@ -18,13 +18,18 @@ services:
    - "traefik.enable=false"
   ports:
    - "3306:3306"
+  deploy:
+   resources:
+    limits:
+     cpus: "0.25"
+     memory: 256M
 
  wordpress:
   container_name: wordpress
   depends_on:
    - db_wp
   image: wordpress:5.2
-  restart: always
+  restart: on-failure
   environment:
    WORDPRESS_DB_HOST: db_wp:3306
    WORDPRESS_DB_USER: wordpress
@@ -39,9 +44,15 @@ services:
   networks:
    - internal
    - proxy 
+  deploy:
+   resources:
+    limits:
+     cpus: "0.25"
+     memory: 256M
 
  reverse-proxy:
   container_name: reverse-proxy
+  restart: on-failure
   image: traefik:1.7
   command: --api
   ports:
@@ -55,13 +66,18 @@ services:
    - ./traefik/Certs:/vagrant/M300-Services/LB3/Dockerconfig/traefik/Certs
   networks:
    - proxy
+  deploy:
+   resources:
+    limits:
+     cpus: "0.25"
+     memory: 256M   
 
  db_owncloud:
   container_name: database_owncloud
   image: mysql:5.7
   volumes:
    - ./db_data_owncloud:/var/lib/mysql
-  restart: always
+  restart: on-failure
   environment:
    MYSQL_ROOT_PASSWORD: someowncloud
    MYSQL_DATABASE: owncloud
@@ -73,13 +89,18 @@ services:
    - "traefik.enable=false"
   ports:
    - "3307:3306"
+  deploy:
+   resources:
+    limits:
+     cpus: "0.25"
+     memory: 256M
 
  owncloud:
   depends_on:
    - db_owncloud
   container_name: owncloud
   image: owncloud:10.0
-  restart: always
+  restart: on-failure
   labels:
    - "traefik.backend=owncloud"
    - "traefik.enable=true"
@@ -99,9 +120,15 @@ services:
    - "OWNCLOUD_ADMIN_PASSWORD=owncloud"
   volumes:
    - "./owncloud:/mnt/data"
+  deploy:
+   resources:
+    limits:
+     cpus: "0.25"
+     memory: 256M
 
  cadvisor:
   image: google/cadvisor:latest
+  restart: on-failure
   volumes:
    - "/:/rootfs:ro"
    - "/var/run:/var/run:rw"
@@ -114,9 +141,15 @@ services:
    - internal
   labels:
    - "traefik.enable=false"
+  deploy:
+   resources:
+    limits:
+     cpus: "0.25"
+     memory: 256M
 
  active-notification:
   container_name: active-notification
+  restart: on-failure
   image: quaide/dem:latest
   volumes:
    - "/var/run/docker.sock:/var/run/docker.sock"
@@ -125,6 +158,11 @@ services:
    - internal
   labels:
    - "traefik.enable=false"
+  deploy:
+   resources:
+    limits:
+     cpus: "0.25"
+     memory: 256M
 
 volumes:
  db_data: {}
