@@ -4,7 +4,7 @@
 Containerisierung ist heutzutage in grossen Firmen nicht wegzudenken. Statt mühsam VMs zu erstellen, welche eine Ewigkeit brauchen zu starten, benutzen Firmen Container, welche im Bruchteiler einer Sekunde aufstarten. Container sind keine VM, sondern ein Prozess, welcher im Hintergrund geöffnet wird. Deswegen funktionieren sie bei jedem Betriebssystem, egal ob Windows, Linux oder Mac OS X. Man kann mittels Dockerfile oder Docker-Compose die Container erstellen. Ich habe in meiner LB3 Docker-Compose verwendet.
 Docker kennt viele Befehle. Die wichtigsten wären folgende:
 | Befehl               | Bedeutung     |
-| ---------------------|---------------|
+| --------------------- | --------------- |
 | docker exec          | Führt einen Befehl in einem Container aus |
 | docker images        | Listet alle heruntergeladenen Images auf | 
 | docker logs          | Zeigt Logs eines Containers     |
