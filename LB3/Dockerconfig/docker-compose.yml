@@ -1,11 +1,11 @@
 version: '3.3'
 
 services:
- db:
-  container_name: database
+ db_wp:
+  container_name: database_wordpress
   image: mysql:5.7
   volumes:
-   - db_data:/var/lib/mysql
+   - ./db_data_wordpress:/var/lib/mysql
   restart: always
   environment:
    MYSQL_ROOT_PASSWORD: somewordpress
@@ -16,15 +16,17 @@ services:
    - internal
   labels:
    - "traefik.enable=false"
+  ports:
+   - "3306:3306"
 
  wordpress:
   container_name: wordpress
   depends_on:
-   - db
+   - db_wp
   image: wordpress:5.2
   restart: always
   environment:
-   WORDPRESS_DB_HOST: db:3306
+   WORDPRESS_DB_HOST: db_wp:3306
    WORDPRESS_DB_USER: wordpress
    WORDPRESS_DB_PASSWORD: wordpress
    WORDPRESS_DB_NAME: wordpress
@@ -54,9 +56,27 @@ services:
   networks:
    - proxy
 
+ db_owncloud:
+  container_name: database_owncloud
+  image: mysql:5.7
+  volumes:
+   - ./db_data_owncloud:/var/lib/mysql
+  restart: always
+  environment:
+   MYSQL_ROOT_PASSWORD: someowncloud
+   MYSQL_DATABASE: owncloud
+   MYSQL_USER: owncloud
+   MYSQL_PASSWORD: owncloud
+  networks:
+   - internal
+  labels:
+   - "traefik.enable=false"
+  ports:
+   - "3307:3306"
+
  owncloud:
   depends_on:
-   - db
+   - db_owncloud
   container_name: owncloud
   image: owncloud:10.0
   restart: always
@@ -69,17 +89,42 @@ services:
   networks:
    - internal
    - proxy
+  environment:
+   - "OWNCLOUD_DB_TYPE=mysql"
+   - "OWNCLOUD_DB_NAME=owncloud"
+   - "OWNCLOUD_DB_USERNAME=owncloud"
+   - "OWNCLOUD_DB_PASSWORD=owncloud"
+   - "OWNCLOUD_DB_HOST=db_owncloud:3307"
+   - "OWNCLOUD_ADMIN_USERNAME=owncloud"
+   - "OWNCLOUD_ADMIN_PASSWORD=owncloud"
+  volumes:
+   - "./owncloud:/mnt/data"
 
  cadvisor:
-   image: google/cadvisor:latest
-   volumes:
-    - "/:/rootfs:ro"
-    - "/var/run:/var/run:rw"
-    - "/sys:/sys:ro"
-    - "/var/lib/docker/:/var/lib/docker:ro"
-  publish:
-   - "8081:8081"
+  image: google/cadvisor:latest
+  volumes:
+   - "/:/rootfs:ro"
+   - "/var/run:/var/run:rw"
+   - "/sys:/sys:ro"
+   - "/var/lib/docker/:/var/lib/docker:ro"
+  ports:
+   - "8081:8080"
   container_name: cadvisor
+  networks:
+   - internal
+  labels:
+   - "traefik.enable=false"
+
+ active-notification:
+  container_name: active-notification
+  image: quaide/dem:latest
+  volumes:
+   - "/var/run/docker.sock:/var/run/docker.sock"
+   - "./active-notification/conf.yml:/app/conf.yml"
+  networks:
+   - internal
+  labels:
+   - "traefik.enable=false"
 
 volumes:
  db_data: {}

@@ -1,0 +1,45 @@
+settings:
+  logging: info ## Log verbosity <debug, info (default), warn, error>
+  tags: ## List of tags you want to appear in notifications for identification purposes
+    - production
+
+  exclusions: ## the name of any actors (containers, networks etc) you want to exclude from alerts
+  inclusions: ## If specified, only events from these actors will be alerted on. Any actors not in this list are implicitly excluded, therefore this is mutually exclusive with the above `exclusions` option.
+    - wordpress
+    - db_wp
+    - owncloud
+    - reverse-proxy
+    - cadvisor
+    - active-monitoring
+
+events: ## The Docker event types that you want to trigger alerts for
+  container: 
+    - 'health_status: unhealthy'
+    - oom
+    - destroy
+    - create
+  image: 
+    - delete
+  plugin:
+    - install
+    - remove
+  volume: 
+    - destroy
+    - create
+  network:
+    - destroy
+  daemon:
+    - reload
+  service:
+    - remove
+  node:
+    - remove
+  secret:
+    - remove
+  config:
+    - remove
+
+integrations: ## Available integrations  
+  discord:
+    enabled: True
+    url: https://discordapp.com/api/webhooks/594913443660693504/jI1aMfgy0ci4UxmIziyjX4DZGs6vg9G3SRQjAd0HXMsd_fgFxPQApsBfOGsHpuKsFJQZ
