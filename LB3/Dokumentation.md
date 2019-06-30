@@ -92,6 +92,7 @@ logLevel = "INFO"
 InsecureSkipVerify = true
 ```
 Hier gebe ich die Domäne an ```Test.ch``` und deswegen muss ich im Hostfile Test.ch an die richtige IP weiterleiten. Ausserdem wird HTTP auf HTTPS weitergeleitet und die SSL Zertifikate gebe ich auch noch an.
+![WordPress wird auf HTTPS weitergeleitet](https://github.com/RafaelGoncalvesST16c/M300-Services/blob/master/LB3/Images/Wordpress.png "WordPress wird auf HTTPS weitergeleitet")
 
 ### Container Ressourcen begrenzen
 Damit ein Container nicht endlos viel CPU und RAM verwendet, wird der Zugriff eingeschränkt. Die Container können den angegebenen Wert nicht überschreiten. Standardmässig würde jeder Container unendlich viel brauchen dürfen. Mit folgendem Befehl wird eine Limitation gesetzt:
@@ -103,8 +104,20 @@ Damit ein Container nicht endlos viel CPU und RAM verwendet, wird der Zugriff ei
      memory: 256M
 ```
 
+### Container nicht immer neustarten
+Normalerweise nutzt man immer den Befehl ```restart: always```. Dieser sorgt dafür, dass ein Container immer wieder aufgestartet wird, wenn man ihn herunterfährt. Dies ist aber nicht von Vorteil, wenn der Container wegen DDoS down ist. Deswegen benutze ich ```restart: on-failure```, welcher dafür sorgt, dass der Container nur bei Fehlern neustartet, also wenn bspw. der Container nicht genug CPU hatte.
+
 ## Monitoring
 Ich benutze Cadvisor für mein Monitoring. Es zeigt mir die allgemeine Last an und auch von jedem Container seine Last. Hier wäre ein Beispiel von Owncloud:
 ![Owncloud in Cadvisor](https://github.com/RafaelGoncalvesST16c/M300-Services/blob/master/LB3/Images/Cadvisor.png "Owncloud in Cadvisor")
+Man sieht:
+- Den CPU Verbrauch 
+- Den RAM Verbrauch
+- Laufende Prozesse
+- Netzwerkauslastung
+- Fehler
+- Wie viel vom Filesystem verbraucht wird
 
 ## Active Notification
+Damit ich immer einen Benachrichtigung bekomme, wenn ein Container gestartet wird, zerstört, etc. habe ich ein active Monitoring eingerichtet. Dieser schickt mir eine Discord Nachricht, wenn eine Bedingung erfüllt wird. Hier ein Beispiel:
+![Discord Benachrichtigung](https://github.com/RafaelGoncalvesST16c/M300-Services/blob/master/LB3/Images/Discord.png "Discord Benachrichtigung")
