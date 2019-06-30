@@ -107,5 +107,3 @@ Ziel ist es, dass über https://owncloud.test.ch das Owncloud Interface geöffne
 - Bei Erstellung eines Containers werden Nachrichten geschickt.
 - Auch bei Zerstörung eines Containers, usw.
 - Nachrichten werden an Discord Server geschickt.
-
-## Sicherheitsaspekte
