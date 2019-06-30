@@ -5,15 +5,15 @@ Containerisierung ist heutzutage in grossen Firmen nicht wegzudenken. Statt müh
 Docker kennt viele Befehle. Die wichtigsten wären folgende:
 | Befehl               | Bedeutung     |
 | ---------------------|---------------|
-| docker exec          | Führt einen Befehl in einem Container aus 
-| docker images        | Listet alle heruntergeladenen Images auf      
-| docker logs          | Zeigt Logs eines Containers     
-| docker network       | Zeigt alle erstellten Netzwerke an
-| docker ps            | Listet alle Container auf
-| docker rm            | Entfernen eine Container
-| docker volume        | Listet alle erstellten Volumes auf
-| docker-compose up    | Führt das docker-compose.y(a)ml File aus
-| docker-compose up -d | Führt das docker-compose.y(a)ml File detached aus, also es läuft im Hintergrund
+| docker exec          | Führt einen Befehl in einem Container aus |
+| docker images        | Listet alle heruntergeladenen Images auf | 
+| docker logs          | Zeigt Logs eines Containers     |
+| docker network       | Zeigt alle erstellten Netzwerke an |
+| docker ps            | Listet alle Container auf |
+| docker rm            | Entfernen eine Container |
+| docker volume        | Listet alle erstellten Volumes auf |
+| docker-compose up    | Führt das docker-compose.y(a)ml File aus |
+| docker-compose up -d | Führt das docker-compose.y(a)ml File detached aus, also es läuft im Hintergrund |
 
 ## Microservices
 Microservices führen Applikationen/Services aus. Eine Webseite wie beispielsweise Google verfügt über mehrere Seiten. Login Seite, Suchmaschine, Kalender, etc. Mit Microservices wird für jede Seite ein Container gestartet. Wenn ein User eine Suche in Google macht, wird ein Microservice gestartet, der die Suche ausführt. Nachdem die Suche beendet ist, wird der Container wieder heruntergefahren. Auch wenn eine Seite plötzlich eine grosse Last hat, kann ein zweiter Microservice aufgestart werden, welcher die Hälfte der Last nimmt. Dies wird mit einem Load Balancer gemacht. Dieser sorgt dafür, dass beide Microservices ungefähr gleich viele User haben.
