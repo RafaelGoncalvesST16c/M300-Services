@@ -254,3 +254,33 @@ Unter Continuous Integration versteht man das stetige verbessern von Software od
 ## Cloud Integration
 
 ## Kubernetes
+
+Zuerst muss das Repository von Lernkube geclont werden.
+git clone https://github.com/mc-b/lernkube
+cd lernkube
+cp templates/DUK.yaml config.yaml
+vagrant plugin install vagrant-disksize
+vagrant up
+Über ```http://localhost:32188``` kann das Jupyter Webinterface geöffnet werden. Hier hat man mehrere *.ipynb Files mit Befehlen, die man starten kann. Als Beispiel nehmen wir "09-1-kubectl.ipynb". Auf diese drücken wir mit einem Linksklick drauf, damit es gestartet wird. Über ```http://192.168.137.100:32335/``` kann das Webinterface geöffnet werden und ein Bild erscheint mit dem Text "It works!". <br>
+Möchte man einen Cluster bauen, muss folgendes getan werden:
+1. cd Kubernetes/lernkube
+2. vi config.yaml
+3. Folgendermassen das File anpassen (in diesem Fall wäre es ein Worker):
+Für Master Count = 1 und Worker = 0, für Master Count = 0 und Worker = 1. Ausserdem muss beim "Network_Type" auf "Public_Network" gewechselt werden. Ausserdem muss use_dhcp auf "True" gesetzt werden.
+```
+master:
+  count: 0
+  cpus: 2
+  memory: 5120
+worker:
+  count: 1
+
+use_dhcp: true  
+# Fixe IP Adressen mit welchen die IP fuer Master und Worker beginnen sollen
+ip:
+  master:   192.168.137.100
+  worker:   192.168.137.111
+# Netzwerk "private_network" fuer Host-only Netzwerk, "public_network" fuer Bridged Netzwerke
+net:
+  network_type: public_network
+```
