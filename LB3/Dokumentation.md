@@ -252,6 +252,7 @@ Nun kann man mit docker pull [Username]/[Reponame] das Image pullen.
 Unter Continuous Integration versteht man das stetige verbessern von Software oder Images. Dadurch benutzt man ein CI/CD fähiges Programm/Image wie bspw. Travis CI, Jenkins, etc. Es werden Tests ausgeführt und dadurch kann man dann sicherstellen, dass das Image funktioniert oder die Software. Ich habe Travis CI genommen. Man erstellt dafür einen Account auf der Webseite, verlinkt sein Github und erstellt dann ein .travis.yml File mit einer Config. Mit dieser wird dann getestet, ob die aufgeführten Befehle funktionieren oder nicht.
 
 ## Cloud Integration
+Ich habe zwei meiner Images auf Docker Hub hochgeladen auf einem Public Repository. So kann man von überall aus die Images herunterladen und starten. Die Container haben dann die vorkonfigurierte Config. Wie man ein Image auf Docker Hub hochlädt, wird im Punkt "Image-Bereitstellung" erklärt. Es ist sehr von Vorteil die Images Online zu haben, da man sonst immer das docker-compose File mit sich schleppen müsste. Wenn man aber die Images hochlädt, kann man einfach ein docker pull [IMAGE]:[TAG] und die Configs sind schon erstellt.
 
 ## Kubernetes
 
