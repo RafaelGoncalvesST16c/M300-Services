@@ -236,7 +236,49 @@ Damit ich immer einen Benachrichtigung bekomme, wenn ein Container gestartet wir
 ![Discord Benachrichtigung](https://github.com/RafaelGoncalvesST16c/M300-Services/blob/master/LB3/Images/Discord.png "Discord Benachrichtigung")
 
 ## Container Vernetzung
-Die Container sind untereinander unterschiedlich vernetzt. Dazu verwende ich die "internal" und "proxy" Netzwerke. Im "Proxy" Netzwerk sind alle Container drin, die den Reverse Proxy brauchen und mit diesem kommunizieren können. WordPress und Owncloud beispielsweise. Im "Internal" Netzwerk sind alle drin, die zwar untereinander kommunizieren müssen, jedoch ist der Reverse Proxy nicht in diesem drin. WordPress + WordPress DB und Owncloud + Owncloud DB sind beispielsweise im internal Netzwerk. Theoretisch könnte man noch ein internal Netzwerk für WordPress + Wordpress DB und ein internal Netz für Owncloud + Owncloud DB machen, aber ich habe nur die zwei erstellt, damit man den Überblick nicht verliert.
+Die Container sind untereinander unterschiedlich vernetzt. Dazu verwende ich die "internal" und "proxy" Netzwerke. Im "Proxy" Netzwerk sind alle Container drin, die den Reverse Proxy brauchen und mit diesem kommunizieren können. WordPress und Owncloud beispielsweise. Im "Internal" Netzwerk sind alle drin, die zwar untereinander kommunizieren müssen, jedoch ist der Reverse Proxy nicht in diesem drin. WordPress + WordPress DB und Owncloud + Owncloud DB sind beispielsweise im internal Netzwerk. Theoretisch könnte man noch ein internal Netzwerk für WordPress + Wordpress DB und ein internal Netz für Owncloud + Owncloud DB machen, aber ich habe nur die zwei erstellt, damit man den Überblick nicht verliert. Folgendermassen sieht mein ```.travis.yml``` File aus:
+```
+sudo: required
+dist: xenial
+
+services:
+  - docker
+
+env:
+  - DOCKER_COMPOSE_VERSION='3.3'
+
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+
+install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin 
+
+before_script:
+  - echo "127.0.0.1  test.ch" | sudo tee -a /etc/hosts
+  - echo "127.0.0.1  wordpress.test.ch" | sudo tee -a /etc/hosts
+  - echo "127.0.0.1  owncloud.test.ch" | sudo tee -a /etc/hosts
+  - docker-compose ./docker-compose.yml up -d
+  - sleep 15
+
+script: ./scripts/test.sh
+
+after_script:
+  - docker rm -f $(docker ps -a -q)
+  - docker volume prune -f
+```
+Das ```test.sh``` Skript beinhaltet folgendes:
+```
+#!/bin/bash
+
+curl http://wordpress.test.ch
+curl http://owncloud.test.ch
+```
 
 ## Image-Bereitstellung
 Statt fremde Images herunterzuladen, kann man auch eigene builden. Ich selber habe eins gebuildet und auf meine public Registry flamelybra/m300-repo hochgeladen. Ob das Image sinnvoll ist, darüber kann man sich streiten. Folgendermassen buildet man ein Image und ladet es danach hoch:
