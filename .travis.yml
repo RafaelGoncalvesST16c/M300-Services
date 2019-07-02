@@ -23,7 +23,7 @@ before_script:
   - echo "127.0.0.1  test.ch" | sudo tee -a /etc/hosts
   - echo "127.0.0.1  wordpress.test.ch" | sudo tee -a /etc/hosts
   - echo "127.0.0.1  owncloud.test.ch" | sudo tee -a /etc/hosts
-  - docker-compose ./docker-compose.yml up -d
+  - docker-compose ./LB3/Dockerconfig/docker-compose.yml up -d
   - sleep 15
 
 script: ./scripts/test.sh
